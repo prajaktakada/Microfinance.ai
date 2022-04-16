@@ -34,7 +34,7 @@ const createUser = async (req, res) => {
 }
 
   // user already exist
-  const duplicate = await user.findOne({email})
+  const duplicate = await userModel.findOne({email})
   if (duplicate){
       return res.status(400).send({ msg: "user with same email already exist" });
   }
