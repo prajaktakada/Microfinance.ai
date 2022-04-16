@@ -2,22 +2,25 @@ const express = require('express');
 
 const router = express.Router();
 
-const AuthorController=require("../controllers/authorcontroller")
-const BlogsController=require("../controllers/blogscontroller")
-const Middleware=require("../middleware/Authentication")
+ const userController=require("../controllers/UserController")
+ const TrainController=require("../controllers/TrainController")
+ const bookingController = require('../controllers/BookingController')
+ const Middleware=require("../middleware/Authentication")
+
+ //User api
+ router.post('/user',userController.createUser)
+ router.post('/login',userController.login)
+
+ //train api
+ router.post('/train/postTrain',Middleware.Auth,TrainController.postTrain)
+ router.get('/train/getAllTrain',Middleware.Auth,TrainController.getAllTrain)
+ router.get('/train/:id',TrainController.getTrain)
+ router.delete('/train/DeleteTrainbyQuery',TrainController.DeleteTrainbyQuery)
 
 
-
-router.post('/createAuthor',AuthorController.createAuthor)
-router.post('/createBlogs',Middleware.Auth,BlogsController.createBlogs)
-router.get('/getBlogs',Middleware.Auth,BlogsController.getBlogs)
-router.put('/update/:blogId',Middleware.Auth,BlogsController.update)
-router.delete('/DeleteBlogs/:deleteId',Middleware.Auth,BlogsController.DeleteBlogs)
-router.delete('/DeleteBlogsbyQuery',Middleware.Auth,BlogsController.DeleteBlogsbyQuery)
-router.post('/login',AuthorController.login)
-
-module.exports = router;
-
-
+// booking api
+router.post('/booking',bookingController.createBook)
+router.get('/getBook',bookingController.getBook)
+router.delete('/deleteBooking',bookingController.deleteBooking)
 
 module.exports = router;
