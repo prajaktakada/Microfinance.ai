@@ -14,11 +14,11 @@ const createBook = async (req, res) => {
       return res.json({ msg: "please enter all the fields" });
   
     const train_available = await train.findOne({ _id: train_id });
-    const user_available = await user.findOne({ _id: user_id });
+    const user_available = await userModel.findOne({ _id: user_id });
     if (!train_available&&!user_available) return res.status(400).send({ msg: "train_id or user id not valid" });
 
     // creating and saving a booking
-    const newBook = new book({user: user_available._id,train: train_available._id});
+    const newBook = {user: user_available._id,train: train_available._id}
 
     let savedBooking = await bookingModel.create(newBook)
 
@@ -38,7 +38,7 @@ const getBook = async (req, res) => {
     try{
     const { id } = req.params;
   
-    const bookExist = await book.findOne({ _id: id });
+    const bookExist = await bookingModel.findOne({ _id: id });
   
     if (!bookExist) return res.status.send({status:false,msg: "Booking does not exist" });
     else
